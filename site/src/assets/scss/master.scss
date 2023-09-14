@@ -1,3 +1,29 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+body {
+
+
+    @apply bg-gray-50 dark:bg-slate-800 text-black dark:text-white font-sans;
+
+}
+
+h1 {
+
+    @apply md:text-3xl text-2xl;
+
+}
+
+h2 {
+
+    @apply md:text-2xl text-xl;
+
+}
+
+h3 {
+
+    @apply md:text-xl text-lg;
+
+}
