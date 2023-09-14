@@ -6,9 +6,9 @@ export function getBoardSize(difficulty: Difficulty): [number, number] {
         case "easy":
             return [8, 8];
         case "medium":
-            return [16, 16]
+            return [16, 16];
         case "hard":
-            return [99, 99]
+            return [99, 99];
     }
 }
 
@@ -25,7 +25,7 @@ export function getMinesCount(difficulty: Difficulty): number {
 
 export function getTileNeighbors(board: Board, x: number, y: number, difficulty: Difficulty): CellState[] {
 
-    const [width, hight] = getBoardSize(difficulty);
+    const [width, height] = getBoardSize(difficulty);
 
     const neighborCoords = [
         [-1, -1], [-1, 0], [-1, 1],
@@ -34,6 +34,7 @@ export function getTileNeighbors(board: Board, x: number, y: number, difficulty:
     ];
 
     const neighbors: CellState[] = [];
+
     for (let i = 0; i < neighborCoords.length; i++) {
         const cords = neighborCoords[i];
 
@@ -42,11 +43,10 @@ export function getTileNeighbors(board: Board, x: number, y: number, difficulty:
         const nx = x + dx;
         const ny = y + dy;
 
-        if (nx >= 0 && nx < width && ny >= 0 && ny < hight) {
+        if (nx >= 0 && nx < width && ny >= 0 && ny < height) {
             neighbors.push(board[ny][nx]);
         }
     }
-
 
     return neighbors;
 
@@ -54,14 +54,14 @@ export function getTileNeighbors(board: Board, x: number, y: number, difficulty:
 
 export function generateBoard(difficulty: Difficulty): Board {
 
-    const [width, hight] = getBoardSize(difficulty);
+    const [width, height] = getBoardSize(difficulty);
     const mineCount = getMinesCount(difficulty);
 
     let board: Board = [];
 
     // Generate board
 
-    for (let i = 0; i < hight; i++) {
+    for (let i = 0; i < height; i++) {
         board.push([]);
         for (let j = 0; j < width; j++) {
             board[i].push({
@@ -69,7 +69,7 @@ export function generateBoard(difficulty: Difficulty): Board {
                 isFlagged: false,
                 isMine: false,
                 isRevealed: false,
-                id: i * width + j,
+                id: i * width + j, // Assign a unique ID based on row and column
             });
         }
     }
@@ -78,7 +78,7 @@ export function generateBoard(difficulty: Difficulty): Board {
 
     for (let i = 0; i < mineCount; i++) {
 
-        let tileCords: {
+        let mineCoords: {
             x: number,
             y: number,
         };
@@ -87,28 +87,28 @@ export function generateBoard(difficulty: Difficulty): Board {
 
         do {
 
-            tileCords = {
+            mineCoords = {
                 x: random(0, width - 1, false),
-                y: random(0, hight - 1, false),
+                y: random(0, height - 1, false),
             }
 
-        } while (board[tileCords.y][tileCords.x].isMine);
+        } while (board[mineCoords.y][mineCoords.x].isMine);
 
         // Place mine
 
-        board[tileCords.y][tileCords.x].isMine = true;
+        board[mineCoords.y][mineCoords.x].isMine = true;
 
     }
 
     // Update board
 
-    for (let i = 0; i < hight; i++) {
+    for (let i = 0; i < height; i++) {
         for (let j = 0; j < width; j++) {
             let tile = board[i][j];
 
-            // Find neighbours
+            // Find neighbors
 
-            const neighbors = getTileNeighbors(board, i, j, difficulty);
+            const neighbors = getTileNeighbors(board, j, i, difficulty);
 
             let mineNeighbors = 0;
 
