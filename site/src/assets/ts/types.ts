@@ -5,5 +5,6 @@ export interface CellState {
     isRevealed: boolean;
     isFlagged: boolean;
     adjacentMines: number;
+    id: number;
 };
 export type Board = CellState[][];

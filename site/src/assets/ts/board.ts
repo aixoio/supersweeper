@@ -34,17 +34,19 @@ export function getTileNeighbors(board: Board, x: number, y: number, difficulty:
     ];
 
     const neighbors: CellState[] = [];
-
     for (let i = 0; i < neighborCoords.length; i++) {
         const cords = neighborCoords[i];
 
-        const [nx, ny] = [x + cords[0], y + cords[1]];
+        const [dx, dy] = cords;
 
-        if (nx > width || ny > hight) continue;
+        const nx = x + dx;
+        const ny = y + dy;
 
-        neighbors.push(board[y][x]);
-
+        if (nx >= 0 && nx < width && ny >= 0 && ny < hight) {
+            neighbors.push(board[ny][nx]);
+        }
     }
+
 
     return neighbors;
 
@@ -66,7 +68,8 @@ export function generateBoard(difficulty: Difficulty): Board {
                 adjacentMines: -1,
                 isFlagged: false,
                 isMine: false,
-                isRevealed: false
+                isRevealed: false,
+                id: i * width + j,
             });
         }
     }
