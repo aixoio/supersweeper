@@ -4,10 +4,19 @@
             <h1>Supersweeper</h1>
             <h3 class="text-gray-300">A clone of the game minesweeper with a few extra features</h3>
             <div>
-                <div class="grid grid-cols-8" v-for="row in board" :key="row.length">
+                <div class="grid grid-cols-8" v-for="row in board" :key="row[0].id">
                     <div v-for="tile in row" :key="tile.id">
-                        <h2 class="bg-white text-black p-8 hover:bg-gray-400 border border-gray-700 hover:text-gray-50" :class="{red: tile.isMine}">
-                            {{ tile.adjacentMines }}
+                        <h2 class="bg-white text-black p-8 hover:bg-gray-400 border border-gray-700 hover:text-gray-50"
+                            :class="{ red: tile.isMine }" @click="handleClick(tile)" @click.right.prevent="handleClickRight(tile)">
+                            <span v-if="tile.isRevealed">
+                                {{ tile.adjacentMines }}
+                            </span>
+                            <span v-else-if="tile.isFlagged && !tile.isRevealed">
+                                🚩
+                            </span>
+                            <span v-else>
+                                ???
+                            </span>
                         </h2>
                     </div>
                 </div>
@@ -18,8 +27,19 @@
 
 <script lang="ts" setup>
 import { generateBoard } from "@/assets/ts/board";
+import type { CellState } from "@/assets/ts/types";
+import { ref } from "vue";
 
-const board = generateBoard("easy");
+const board = ref(generateBoard("easy"));
+
+const handleClick = (tile: CellState) => {
+    tile.isRevealed = true;
+    if (tile.isMine) alert("Dead");
+}
+
+const handleClickRight = (tile: CellState) => {
+    tile.isFlagged = !tile.isFlagged;
+}
 
 console.log(board);
 
@@ -27,10 +47,7 @@ console.log(board);
 </script>
 
 <style lang="scss" scoped>
-
 .red {
     background: red;
 }
-
-
 </style>
