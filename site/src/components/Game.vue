@@ -33,6 +33,7 @@ import { ref } from "vue";
 const board = ref(generateBoard("easy"));
 
 const handleClickElem = (tile: CellState) => {
+    if (tile.isFlagged) return;
     tile.isRevealed = true;
     handleClick(tile, board.value, "easy");
     if (tile.isMine) alert("Dead");
