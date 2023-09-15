@@ -6,7 +6,7 @@
             <div>
                 <div class="grid grid-cols-8" v-for="row in board" :key="row[0].id">
                     <div v-for="tile in row" :key="tile.id">
-                        <h2 class="bg-white text-black p-8 hover:bg-gray-400 border border-gray-700 hover:text-gray-50"
+                        <span class="bg-white text-black p-8 hover:bg-gray-400 border border-gray-700 hover:text-gray-50 text-lg block"
                             :class="{ red: tile.isMine }" @click="handleClickElem(tile)" @click.right.prevent="handleClickRightElem(tile)">
                             <span v-if="tile.isRevealed">
                                 {{ tile.adjacentMines }}
@@ -17,7 +17,7 @@
                             <span v-else>
                                 ?
                             </span>
-                        </h2>
+                        </span>
                     </div>
                 </div>
             </div>
