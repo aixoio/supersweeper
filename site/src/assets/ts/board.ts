@@ -69,7 +69,9 @@ export function generateBoard(difficulty: Difficulty): Board {
                 isFlagged: false,
                 isMine: false,
                 isRevealed: false,
-                id: i * width + j, // Assign a unique ID based on row and column
+                id: i * width + j, // Assign a unique ID based on row and column,
+                x: j,
+                y: i,
             });
         }
     }
@@ -126,5 +128,30 @@ export function generateBoard(difficulty: Difficulty): Board {
     }
 
     return board;
+
+}
+
+export function handleClick(tile: CellState, board: Board, difficulty: Difficulty) {
+
+    showAllTIles(tile, difficulty, board);
+
+}
+
+function showAllTIles(tile: CellState, difficulty: Difficulty, board: Board) {
+
+    if (tile.adjacentMines != 0) {
+        return;
+    }
+    tile.isRevealed = true;
+
+    const near = getTileNeighbors(board, tile.x, tile.y, difficulty);
+
+    for (let i = 0; i < near.length; i++) {
+        if (near[i].isRevealed) continue;
+        near[i].isRevealed = true;
+        if (near[i].adjacentMines == 0) {
+            showAllTIles(near[i], difficulty, board);
+        }
+    }
 
 }

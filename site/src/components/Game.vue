@@ -7,7 +7,7 @@
                 <div class="grid grid-cols-8" v-for="row in board" :key="row[0].id">
                     <div v-for="tile in row" :key="tile.id">
                         <h2 class="bg-white text-black p-8 hover:bg-gray-400 border border-gray-700 hover:text-gray-50"
-                            :class="{ red: tile.isMine }" @click="handleClick(tile)" @click.right.prevent="handleClickRight(tile)">
+                            :class="{ red: tile.isMine }" @click="handleClickElem(tile)" @click.right.prevent="handleClickRightElem(tile)">
                             <span v-if="tile.isRevealed">
                                 {{ tile.adjacentMines }}
                             </span>
@@ -26,18 +26,19 @@
 </template>
 
 <script lang="ts" setup>
-import { generateBoard } from "@/assets/ts/board";
+import { generateBoard, handleClick } from "@/assets/ts/board";
 import type { CellState } from "@/assets/ts/types";
 import { ref } from "vue";
 
 const board = ref(generateBoard("easy"));
 
-const handleClick = (tile: CellState) => {
+const handleClickElem = (tile: CellState) => {
     tile.isRevealed = true;
+    handleClick(tile, board.value, "easy");
     if (tile.isMine) alert("Dead");
 }
 
-const handleClickRight = (tile: CellState) => {
+const handleClickRightElem = (tile: CellState) => {
     tile.isFlagged = !tile.isFlagged;
 }
 
