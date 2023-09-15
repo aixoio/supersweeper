@@ -15,7 +15,7 @@
                                 🚩
                             </span>
                             <span v-else>
-                                ???
+                                ?
                             </span>
                         </h2>
                     </div>
