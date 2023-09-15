@@ -139,9 +139,8 @@ export function handleClick(tile: CellState, board: Board, difficulty: Difficult
 
 function showAllTIles(tile: CellState, difficulty: Difficulty, board: Board) {
 
-    if (tile.adjacentMines != 0) {
-        return;
-    }
+    if (tile.adjacentMines != 0) return;
+    
     tile.isRevealed = true;
 
     const near = getTileNeighbors(board, tile.x, tile.y, difficulty);
