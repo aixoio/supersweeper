@@ -42,8 +42,6 @@ const handleClickRightElem = (tile: CellState) => {
     tile.isFlagged = !tile.isFlagged;
 }
 
-console.log(board);
-
 
 </script>
 
