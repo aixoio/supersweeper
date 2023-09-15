@@ -26,8 +26,8 @@
 </template>
 
 <script lang="ts" setup>
-import { generateBoard, handleClick } from "@/assets/ts/board";
-import type { CellState } from "@/assets/ts/types";
+import { generateBoard, handleClick, hasWon } from "../assets/ts/board";
+import type { CellState } from "../assets/ts/types";
 import { ref } from "vue";
 
 const board = ref(generateBoard("easy"));
@@ -37,6 +37,9 @@ const handleClickElem = (tile: CellState) => {
     tile.isRevealed = true;
     handleClick(tile, board.value, "easy");
     if (tile.isMine) alert("Dead");
+    if (hasWon(board.value)) {
+        alert("Yay");
+    }
 }
 
 const handleClickRightElem = (tile: CellState) => {

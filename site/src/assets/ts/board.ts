@@ -154,3 +154,15 @@ function showAllTIles(tile: CellState, difficulty: Difficulty, board: Board) {
     }
 
 }
+
+export function hasWon(board: Board): boolean {
+
+    for (let i = 0; i < board.length; i++) {
+        for (let j = 0; j < board[i].length; j++) {
+            if (!board[i][j].isRevealed && !board[i][j].isMine) return false;
+        }
+    }
+
+    return true;
+
+}
